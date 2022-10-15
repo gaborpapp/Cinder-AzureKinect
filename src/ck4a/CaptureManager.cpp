@@ -21,7 +21,7 @@ POSSIBILITY OF SUCH DAMAGE.
 
 #include "ck4a/CaptureManager.h"
 
-#include "mason/extra/ImGuiStuff.h"
+#include "mason/imx/ImGuiStuff.h"
 
 #include "cinder/Log.h"
 #include "cinder/osc/Osc.h"
@@ -411,7 +411,8 @@ void CaptureManager::initOSCListeners()
 		return;
 	}
 
-	mOSCReceiver->removeAllListeners();
+	mOSCReceiver->removeListener( "/device/status" );
+	mOSCReceiver->removeListener( "/capture/device/*" );
 
 	//mOSCReceiver->setListener( "/test/message",
 	//	[&]( const osc::Message &msg ) {
@@ -737,6 +738,7 @@ void CaptureManager::updateUI()
 			if( mOSCReceiver ) {
 				if( im::TreeNodeEx( "Receiver", ImGuiTreeNodeFlags_DefaultOpen ) ) {
 					im::Text( "local endpoint: %s:%d", mOSCReceiver->getLocalEndpoint().address().to_string().c_str(), mOSCReceiver->getLocalEndpoint().port() );
+					/*
 					if( im::TreeNodeEx( "Listeners", ImGuiTreeNodeFlags_DefaultOpen ) ) {
 						auto listeners = mOSCReceiver->getListeners();
 						for( const auto &l : listeners ) {
@@ -745,6 +747,7 @@ void CaptureManager::updateUI()
 
 						im::TreePop();
 					}
+					*/
 					im::TreePop();
 				}
 			}

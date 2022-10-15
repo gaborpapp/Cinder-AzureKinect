@@ -26,8 +26,8 @@ POSSIBILITY OF SUCH DAMAGE.
 #include "ck4a/CaptureAzureKinect.h"
 #include "ck4a/CaptureManager.h"
 
-#include "mason/extra/ImGuiStuff.h"
-#include "mason/extra/ImGuiTexture.h"
+#include "mason/imx/ImGuiStuff.h"
+#include "mason/imx/ImGuiTexture.h"
 #include "imguix/ImGuiFilePicker.h"
 #include "cinder/Breakpoint.h"
 #include "cinder/Log.h"
@@ -1508,10 +1508,11 @@ void CaptureAzureKinect::updateUI()
 	im::Checkbox( "capture buffers", &mCopyBuffersEnabled );
 
 	if( mCopyBuffersEnabled && im::CollapsingHeader( "Buffers", ImGuiTreeNodeFlags_DefaultOpen ) ) {
-		ImGuiTreeNodeFlags viewerFlags = ImGuiTreeNodeFlags_DefaultOpen;
-		imx::Texture2d( "color", mColorTexture, viewerFlags );
-		imx::TextureDepth( "depth", mDepthTexture, viewerFlags );
-		imx::Texture2d( "depth table", mTableDepth2d3dTexture, viewerFlags );
+		imx::TextureViewerOptions viewerOptions = imx::TextureViewerOptions()
+			.treeNodeFlags( ImGuiTreeNodeFlags_DefaultOpen );
+		imx::Texture2d( "color", mColorTexture, viewerOptions );
+		imx::TextureDepth( "depth", mDepthTexture, viewerOptions );
+		imx::Texture2d( "depth table", mTableDepth2d3dTexture, viewerOptions );
 	}
 
 	im::End();

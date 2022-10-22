@@ -4,6 +4,8 @@ if ( NOT TARGET Cinder-AzureKinect )
 		"${CMAKE_CURRENT_LIST_DIR}/../../" ABSOLUTE )
 	get_filename_component( MASON_PATH
 		"${CMAKE_CURRENT_LIST_DIR}/../../../mason/" ABSOLUTE )
+	get_filename_component( PROFILER_PATH
+		"${CMAKE_CURRENT_LIST_DIR}/../../../mason/blocks/Cinder-Profiler" ABSOLUTE )
 
 	get_filename_component( CINDER_PATH "${CMAKE_CURRENT_LIST_DIR}/../../../.." ABSOLUTE )
 
@@ -11,10 +13,10 @@ if ( NOT TARGET Cinder-AzureKinect )
 		${CINDER_AZUREKINECT_PATH}/lib/include
 	)
 	list( APPEND K4A_LIBRARIES
-		${CINDER_AZUREKINECT_PATH}/lib/x86_64-linux-gnu/libk4a.so
-		${CINDER_AZUREKINECT_PATH}/lib/x86_64-linux-gnu/libk4arecord.so
-		#${CINDER_AZUREKINECT_PATH}/lib/x86_64-linux-gnu/libk4a1.4/libdepthengine.so.2.0
-		${CINDER_AZUREKINECT_PATH}/lib/x86_64-linux-gnu/libk4abt.so
+		${CINDER_AZUREKINECT_PATH}/lib/lib/x86_64-linux-gnu/libk4a.so
+		${CINDER_AZUREKINECT_PATH}/lib/lib/x86_64-linux-gnu/libk4arecord.so
+		#${CINDER_AZUREKINECT_PATH}/lib/lib/x86_64-linux-gnu/libk4a1.4/libdepthengine.so.2.0
+		${CINDER_AZUREKINECT_PATH}/lib/lib/x86_64-linux-gnu/libk4abt.so
 	)
 
 	list( APPEND CINDER_AZUREKINECT_INCLUDES
@@ -39,14 +41,22 @@ if ( NOT TARGET Cinder-AzureKinect )
 		${MASON_PATH}/src/mason/imx/ImGuiTexture.cpp
 	)
 
+	list( APPEND PROFILER_INCLUDES
+		${PROFILER_PATH}/src
+	)
+	list( APPEND PROFILER_SOURCES
+		${PROFILER_PATH}/src/Profiler.cpp
+	)
+
 	list( APPEND OSC_INCLUDES
 		"${CINDER_AZUREKINECT_PATH}/../../../Cinder/blocks/OSC/src"
 	)
 
-	add_library( Cinder-AzureKinect ${CINDER_AZUREKINECT_SOURCES} ${MASON_SOURCES})
+	add_library( Cinder-AzureKinect ${CINDER_AZUREKINECT_SOURCES} ${MASON_SOURCES} ${PROFILER_SOURCES})
 	target_link_libraries( Cinder-AzureKinect PUBLIC ${K4A_LIBRARIES} )
 
-	target_include_directories( Cinder-AzureKinect PUBLIC ${K4A_INCLUDES} ${MASON_INCLUDES} ${CINDER_AZUREKINECT_INCLUDES} ${OSC_INCLUDES})
+	target_include_directories( Cinder-AzureKinect PUBLIC ${K4A_INCLUDES} ${MASON_INCLUDES}
+		${CINDER_AZUREKINECT_INCLUDES} ${PROFILER_INCLUDES} ${OSC_INCLUDES})
 	target_include_directories( Cinder-AzureKinect PRIVATE BEFORE "${CINDER_PATH}/include" )
 
 	if ( NOT TARGET cinder )

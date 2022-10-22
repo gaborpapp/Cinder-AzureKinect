@@ -36,7 +36,11 @@ if ( NOT TARGET Cinder-AzureKinect )
 
 	list( APPEND MASON_SOURCES
 		${MASON_PATH}/src/mason/Assets.cpp
+		${MASON_PATH}/src/mason/Common.cpp
+		${MASON_PATH}/src/mason/Config.cpp
 		${MASON_PATH}/src/mason/Info.cpp
+		${MASON_PATH}/src/mason/Notifications.cpp
+		${MASON_PATH}/src/mason/glutils.cpp
 		${MASON_PATH}/src/mason/imx/ImGuiStuff.cpp
 		${MASON_PATH}/src/mason/imx/ImGuiTexture.cpp
 	)
